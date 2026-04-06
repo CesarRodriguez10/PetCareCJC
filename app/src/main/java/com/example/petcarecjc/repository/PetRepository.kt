@@ -15,6 +15,11 @@ class PetRepository {
             .addOnSuccessListener { onSuccess() }
             .addOnFailureListener { onError(it) }
     }
-
-
+    fun getPets(onResult: (List<Pet>) -> Unit) {
+        db.collection("pets").get()
+            .addOnSuccessListener { result ->
+                val pets = result.map { it.toObject(Pet::class.java) }
+                onResult(pets)
+            }
+    }
 }
