@@ -58,5 +58,5 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.test.manifest)
     implementation("com.google.firebase:firebase-firestore:24.7.1")
     implementation("com.google.android.gms:play-services-tasks:18.0.2")
-
+    implementation("androidx.appcompat:appcompat:1.6.1")
 }
