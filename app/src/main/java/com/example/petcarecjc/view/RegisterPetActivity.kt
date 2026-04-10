@@ -1,4 +1,4 @@
-package com.example.petcarecjc
+package com.example.petcarecjc.view
 
 import android.os.Bundle
 import android.widget.Toast
