@@ -7,7 +7,7 @@ import com.example.petcarecjc.repository.PetRepository
 class PetViewModel : ViewModel() {
 
     private val repository = PetRepository()
-
+//nuevo
     fun savePet(pet: Pet, onResult: (String) -> Unit) {
         repository.savePet(pet,
             onSuccess = { onResult("Guardado") },
