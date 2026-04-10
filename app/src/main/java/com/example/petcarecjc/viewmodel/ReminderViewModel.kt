@@ -3,5 +3,5 @@ package com.example.petcarecjc.viewmodel
 import androidx.lifecycle.ViewModel
 
 class ReminderViewModel : ViewModel() {
-    // vacío por ahora (como en tu imagen)
+    // vacío por ahora, revisar
 }
