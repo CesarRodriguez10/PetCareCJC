@@ -1,5 +1,6 @@
 package com.example.petcarecjc
 
+
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -44,7 +45,7 @@ fun MainScreen(onStartClick: () -> Unit) {
         Spacer(modifier = Modifier.height(20.dp))
 
         Image(
-            painter = painterResource(id = R.drawable.pets),
+            painter = painterResource(id = R.drawable.pets), // imagen pets.png
             contentDescription = null,
             modifier = Modifier.size(200.dp)
         )
