@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "449721087670",
+    "project_id": "cjc-petcare",
+    "storage_bucket": "cjc-petcare.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:449721087670:android:5c3920b86e7c29604ed817",
+        "android_client_info": {
+          "package_name": "com.example.petcarecjc"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXRff7ScvudYL7Q5naxSOg5RBA0UrBA4g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

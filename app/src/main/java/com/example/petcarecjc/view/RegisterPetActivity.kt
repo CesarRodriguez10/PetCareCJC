@@ -1,0 +1,210 @@
+package com.example.petcarecjc.view
+
+import android.os.Bundle
+import android.widget.Toast
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.activity.viewModels
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import com.example.petcarecjc.R
+import com.example.petcarecjc.model.Pet
+import com.example.petcarecjc.viewmodel.PetViewModel
+import kotlinx.coroutines.delay
+
+class RegisterPetActivity : ComponentActivity() {
+
+    private val viewModel: PetViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        setContent {
+
+            val context = LocalContext.current
+            val status by viewModel.status.collectAsState()
+
+            RegisterPetScreen(
+                onSave = { pet ->
+                    viewModel.savePet(pet) { message ->
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    }
+                },
+                onBack = {
+                    finish()
+                }
+            )
+
+            LaunchedEffect(status) {
+                if (status.isNotEmpty()) {
+                    Toast.makeText(context, status, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RegisterPetScreen(
+    onSave: (Pet) -> Unit,
+    onBack: () -> Unit
+) {
+
+    var name by remember { mutableStateOf("") }
+    var type by remember { mutableStateOf("") }
+    var gender by remember { mutableStateOf("") }
+    var description by remember { mutableStateOf("") }
+    var showSavedCard by remember { mutableStateOf(false) }
+
+
+    LaunchedEffect(showSavedCard) {
+        if (showSavedCard) {
+            delay(3000)
+            showSavedCard = false
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
+            TextButton(onClick = onBack) {
+                Text("← Volver")
+            }
+        }
+
+        Image(
+            painter = painterResource(id = R.drawable.jager),
+            contentDescription = "Mascota",
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(250.dp)
+                .clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)),
+            contentScale = ContentScale.Crop
+        )
+
+        Column(
+            modifier = Modifier
+                .padding(20.dp)
+        ) {
+
+            Text(
+                text = "Agrega tus mascotas",
+                style = MaterialTheme.typography.headlineMedium
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            if (showSavedCard) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+
+                        Text(
+                            text = "Tus mascotas fueron guardadas",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        TextButton(
+                            onClick = {
+                                showSavedCard = false
+                            }
+                        ) {
+                            Text("\uD83D\uDC3E")
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text("Nombre de tu mascota") },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            OutlinedTextField(
+                value = type,
+                onValueChange = { type = it },
+                label = { Text("Tipo (Perro, Gato, etc)") },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            OutlinedTextField(
+                value = gender,
+                onValueChange = { gender = it },
+                label = { Text("Género") },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+
+            Spacer(modifier = Modifier.height(10.dp))
+
+            OutlinedTextField(
+                value = description,
+                onValueChange = { description = it },
+                label = { Text("Descripción") },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(12.dp)
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            Button(
+                onClick = {
+                    val pet = Pet(
+                        nombre = name,
+                        tipo = type,
+                        genero = gender,
+                        descripcion = description
+                    )
+                    onSave(pet)
+                    showSavedCard = true
+
+                    name = ""
+                    type = ""
+                    gender = ""
+                    description = ""
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(50.dp),
+                shape = RoundedCornerShape(16.dp)
+            ) {
+                Text("Guardar")
+            }
+        }
+    }
+}
