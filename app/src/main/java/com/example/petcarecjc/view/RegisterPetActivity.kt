@@ -191,8 +191,6 @@ fun RegisterPetScreen(
                         descripcion = description
                     )
                     onSave(pet)
-
-                    // 🔥 MOSTRAR TARJETA
                     showSavedCard = true
 
                     name = ""
