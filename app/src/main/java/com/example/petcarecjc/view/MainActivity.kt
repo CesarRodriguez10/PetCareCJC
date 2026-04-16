@@ -21,17 +21,28 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val username = intent.getStringExtra("USERNAME") ?: "Usuario"
 
         setContent {
-            MainScreen {
-                startActivity(Intent(this, RegisterPetActivity::class.java))
-            }
+            MainScreen(
+                username = username,
+                onRegisterClick = {
+                    startActivity(Intent(this, RegisterPetActivity::class.java))
+                },
+                onViewPetsClick = {
+                    startActivity(Intent(this, PetDetailActivity::class.java))
+                }
+            )
         }
     }
 }
 
 @Composable
-fun MainScreen(onStartClick: () -> Unit) {
+fun MainScreen(
+    username: String,
+    onRegisterClick: () -> Unit,
+    onViewPetsClick: () -> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -42,7 +53,7 @@ fun MainScreen(onStartClick: () -> Unit) {
     ) {
 
         Text(
-            text = "Bienvenido a \nPetCare CJC",
+            text = "Hola, $username\nBienvenido a PetCare CJC",
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -67,10 +78,21 @@ fun MainScreen(onStartClick: () -> Unit) {
         Spacer(modifier = Modifier.height(30.dp))
 
         Button(
-            onClick = onStartClick,
-            modifier = Modifier.fillMaxWidth()
+            onClick = onRegisterClick,
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp)
         ) {
-            Text("Comenzar")
+            Text("Registrar Mascota")
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        OutlinedButton(
+            onClick = onViewPetsClick,
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(12.dp)
+        ) {
+            Text("Ver mis Mascotas")
         }
     }
 }
