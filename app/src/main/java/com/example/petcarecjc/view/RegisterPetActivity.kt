@@ -19,6 +19,7 @@ import androidx.compose.ui.layout.ContentScale
 import com.example.petcarecjc.R
 import com.example.petcarecjc.model.Pet
 import com.example.petcarecjc.viewmodel.PetViewModel
+import kotlinx.coroutines.delay
 
 class RegisterPetActivity : ComponentActivity() {
 
@@ -39,7 +40,7 @@ class RegisterPetActivity : ComponentActivity() {
                     }
                 },
                 onBack = {
-                    finish() // 🔥 vuelve al MainActivity
+                    finish()
                 }
             )
 
@@ -62,6 +63,15 @@ fun RegisterPetScreen(
     var type by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
+    var showSavedCard by remember { mutableStateOf(false) }
+
+
+    LaunchedEffect(showSavedCard) {
+        if (showSavedCard) {
+            delay(3000)
+            showSavedCard = false
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -98,7 +108,39 @@ fun RegisterPetScreen(
                 style = MaterialTheme.typography.headlineMedium
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(10.dp))
+
+            if (showSavedCard) {
+                Card(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 10.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceVariant
+                    )
+                ) {
+                    Column(modifier = Modifier.padding(16.dp)) {
+
+                        Text(
+                            text = "Tus mascotas fueron guardadas",
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+
+                        Spacer(modifier = Modifier.height(8.dp))
+
+                        TextButton(
+                            onClick = {
+                                showSavedCard = false
+                            }
+                        ) {
+                            Text("Action")
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
 
             OutlinedTextField(
                 value = name,
@@ -149,6 +191,9 @@ fun RegisterPetScreen(
                         descripcion = description
                     )
                     onSave(pet)
+
+                    // 🔥 MOSTRAR TARJETA
+                    showSavedCard = true
 
                     name = ""
                     type = ""
