@@ -32,11 +32,16 @@ class RegisterPetActivity : ComponentActivity() {
             val context = LocalContext.current
             val status by viewModel.status.collectAsState()
 
-            RegisterPetScreen { pet ->
-                viewModel.savePet(pet) { message ->
-                    Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+            RegisterPetScreen(
+                onSave = { pet ->
+                    viewModel.savePet(pet) { message ->
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    }
+                },
+                onBack = {
+                    finish() // 🔥 vuelve al MainActivity
                 }
-            }
+            )
 
             LaunchedEffect(status) {
                 if (status.isNotEmpty()) {
@@ -48,7 +53,10 @@ class RegisterPetActivity : ComponentActivity() {
 }
 
 @Composable
-fun RegisterPetScreen(onSave: (Pet) -> Unit) {
+fun RegisterPetScreen(
+    onSave: (Pet) -> Unit,
+    onBack: () -> Unit
+) {
 
     var name by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
@@ -60,12 +68,22 @@ fun RegisterPetScreen(onSave: (Pet) -> Unit) {
             .fillMaxSize()
     ) {
 
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp)
+        ) {
+            TextButton(onClick = onBack) {
+                Text("← Volver")
+            }
+        }
+
         Image(
             painter = painterResource(id = R.drawable.jager),
             contentDescription = "Mascota",
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(250.dp)
                 .clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)),
             contentScale = ContentScale.Crop
         )
