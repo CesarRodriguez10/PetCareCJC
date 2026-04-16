@@ -134,7 +134,7 @@ fun RegisterPetScreen(
                                 showSavedCard = false
                             }
                         ) {
-                            Text("Action")
+                            Text("\uD83D\uDC3E")
                         }
                     }
                 }
