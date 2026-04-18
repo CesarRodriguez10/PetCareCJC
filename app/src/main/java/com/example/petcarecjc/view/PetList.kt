@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -27,9 +28,19 @@ import com.example.petcarecjc.model.Pet
 @Composable
 fun PetListScreen(
     pets: List<Pet>,
-    onDetailClick: (Pet) -> Unit
+    onDetailClick: (Pet) -> Unit,
+    onBack: () -> Unit = {}
 ) {
     var searchQuery by remember { mutableStateOf("") }
+
+    // Filtro funcional por nombre
+    val filteredPets = remember(searchQuery, pets) {
+        if (searchQuery.isEmpty()) {
+            pets
+        } else {
+            pets.filter { it.nombre.contains(searchQuery, ignoreCase = true) }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -39,7 +50,7 @@ fun PetListScreen(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(280.dp)
+                .height(220.dp)
         ) {
             Image(
                 painter = painterResource(id = R.drawable.pets),
@@ -47,34 +58,63 @@ fun PetListScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentScale = ContentScale.Crop
             )
-            Column(
+            
+
+            Surface(
+                color = Color.Black.copy(alpha = 0.4f),
+                shape = RoundedCornerShape(12.dp),
                 modifier = Modifier
+                    .padding(16.dp)
                     .align(Alignment.TopStart)
-                    .padding(24.dp)
             ) {
-                Text(
-                    text = "¡Hola, amigo!",
-                    color = Color.Black,
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
-                )
-                Text(
-                    text = "Encuentra el mejor\ncuidado",
-                    color = Color.Black,
-                    fontSize = 28.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    lineHeight = 34.sp
-                )
+                TextButton(
+                    onClick = onBack,
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                        contentDescription = null,
+                        tint = Color.White,
+                        modifier = Modifier.size(18.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        text = "Volver",
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp
+                    )
+                }
             }
         }
 
+        // Textos fuera de la imagen (debajo)
+        Column(
+            modifier = Modifier
+                .padding(horizontal = 24.dp, vertical = 16.dp)
+        ) {
+            Text(
+                text = "¡Hola, amigo!",
+                color = Color.Black,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "Encuentra el mejor cuidado",
+                color = Color.Black,
+                fontSize = 26.sp,
+                fontWeight = FontWeight.ExtraBold,
+                lineHeight = 30.sp
+            )
+        }
+
+        // Buscador
         OutlinedTextField(
             value = searchQuery,
             onValueChange = { searchQuery = it },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 24.dp)
-                .offset(y = (-25).dp),
+                .padding(horizontal = 24.dp),
             placeholder = { Text("Buscar por nombre de tu mascota") },
             trailingIcon = {
                 Surface(
@@ -99,6 +139,8 @@ fun PetListScreen(
             )
         )
 
+        Spacer(modifier = Modifier.height(16.dp))
+
         Text(
             text = "Tus mascotas",
             modifier = Modifier.padding(horizontal = 24.dp),
@@ -111,7 +153,7 @@ fun PetListScreen(
             contentPadding = PaddingValues(24.dp),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
-            items(pets) { pet ->
+            items(filteredPets) { pet ->
                 PetItem(pet = pet, onDetailClick = onDetailClick)
             }
         }
