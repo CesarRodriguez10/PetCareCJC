@@ -2,23 +2,18 @@ package com.example.petcarecjc.view
 
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.ComponentActivity
+import androidx.activity.*
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Modifier
+import androidx.compose.ui.*
+import androidx.compose.ui.res.*
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.text.font.FontWeight
 import com.example.petcarecjc.R
 import com.example.petcarecjc.model.Pet
 import com.example.petcarecjc.viewmodel.PetViewModel
@@ -39,24 +34,15 @@ class RegisterPetActivity : ComponentActivity() {
 
         setContent {
             val context = LocalContext.current
-            val status by viewModel.status.collectAsState()
 
             RegisterPetScreen(
                 onSave = { pet ->
-                    viewModel.savePet(pet) { message ->
-                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+                    viewModel.savePet(pet) {
+                        Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                     }
                 },
-                onBack = {
-                    finish()
-                }
+                onBack = { finish() }
             )
-
-            LaunchedEffect(status) {
-                if (status.isNotEmpty()) {
-                    Toast.makeText(context, status, Toast.LENGTH_SHORT).show()
-                }
-            }
         }
     }
 }
@@ -92,27 +78,11 @@ fun RegisterPetScreen(
     }
     val scrollState = rememberScrollState()
 
-    LaunchedEffect(showSavedCard) {
-        if (showSavedCard) {
-            delay(3000)
-            showSavedCard = false
+        TextButton(onClick = onBack) {
+            Text(stringResource(R.string.back))
         }
-    }
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(scrollState)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        ) {
-            TextButton(onClick = onBack) {
-                Text("Volver")
-            }
-        }
+        Text(stringResource(R.string.add_pet))
 
         Box(modifier = Modifier.fillMaxWidth()) {
 
@@ -168,9 +138,11 @@ fun RegisterPetScreen(
             }
         }
 
-        Column(
-            modifier = Modifier
-                .padding(20.dp)
+        Button(
+            onClick = {
+                onSave(Pet(nombre = name, tipo = type))
+            },
+            modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text = "Agrega tus mascotas",
@@ -261,13 +233,5 @@ fun RegisterPetScreen(
 
 @Composable
 fun CustomTextField(value: String, onValueChange: (String) -> Unit, label: String) {
-    OutlinedTextField(
-        value = value,
-        onValueChange = onValueChange,
-        label = { Text(label) },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        shape = RoundedCornerShape(12.dp)
-    )
+    OutlinedTextField(value, onValueChange, label = { Text(label) })
 }

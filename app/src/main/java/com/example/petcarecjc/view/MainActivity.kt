@@ -12,8 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.petcarecjc.R
 
@@ -21,6 +21,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         val username = intent.getStringExtra("USERNAME") ?: "Usuario"
 
         setContent {
@@ -43,7 +44,6 @@ fun MainScreen(
     onRegisterClick: () -> Unit,
     onViewPetsClick: () -> Unit
 ) {
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -53,7 +53,7 @@ fun MainScreen(
     ) {
 
         Text(
-            text = "Hola, $username\nBienvenido a PetCare CJC",
+            text = stringResource(R.string.welcome_user, username),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -70,10 +70,13 @@ fun MainScreen(
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "Cuidémolos juntos",
+            text = stringResource(R.string.care_text),
             style = MaterialTheme.typography.headlineSmall
         )
-        Text("Descubre como cuidar a tus mascotas")
+
+        Text(
+            text = stringResource(R.string.desc_text)
+        )
 
         Spacer(modifier = Modifier.height(30.dp))
 
@@ -82,7 +85,7 @@ fun MainScreen(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
         ) {
-            Text("Registrar Mascota")
+            Text(stringResource(R.string.btn_register))
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -92,7 +95,7 @@ fun MainScreen(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
         ) {
-            Text("Ver mis Mascotas")
+            Text(stringResource(R.string.btn_view))
         }
     }
 }
