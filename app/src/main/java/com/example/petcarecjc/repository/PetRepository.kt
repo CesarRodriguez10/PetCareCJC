@@ -33,10 +33,51 @@ class PetRepository {
             }
 
             if (snapshot != null) {
-                val pets = snapshot.toObjects(Pet::class.java)
+                val pets = snapshot.documents.mapNotNull { document ->
+
+                    val pet = document.toObject(Pet::class.java)
+
+                    pet?.apply {
+                        id = document.id
+                    }
+                }
                 Log.d("FIRESTORE", "Mascotas recibidas: ${pets.size}")
                 onResult(pets)
             }
         }
+    }
+
+    fun deletePet(
+        petId: String,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+
+        db.collection("pets")
+            .document(petId)
+            .delete()
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onError(it)
+            }
+    }
+
+    fun updatePet(
+        pet: Pet,
+        onSuccess: () -> Unit,
+        onError: (Exception) -> Unit
+    ) {
+
+        db.collection("pets")
+            .document(pet.id)
+            .set(pet)
+            .addOnSuccessListener {
+                onSuccess()
+            }
+            .addOnFailureListener {
+                onError(it)
+            }
     }
 }

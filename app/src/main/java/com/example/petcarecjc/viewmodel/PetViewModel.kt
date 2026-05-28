@@ -37,4 +37,36 @@ class PetViewModel : ViewModel() {
             }
         }
     }
+
+    fun deletePet(petId: String) {
+
+        repository.deletePet(
+            petId = petId,
+
+            onSuccess = {
+                _status.value = "Mascota eliminada"
+                loadPets()
+            },
+
+            onError = {
+                _status.value = "Error al eliminar"
+            }
+        )
+    }
+
+    fun updatePet(pet: Pet) {
+
+        repository.updatePet(
+            pet = pet,
+
+            onSuccess = {
+                _status.value = "Mascota actualizada"
+                loadPets()
+            },
+
+            onError = {
+                _status.value = "Error al actualizar"
+            }
+        )
+    }
 }
