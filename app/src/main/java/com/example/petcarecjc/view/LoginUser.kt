@@ -16,37 +16,36 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.*
 import androidx.compose.ui.text.input.PasswordVisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.petcarecjc.R
 
 class LoginUser : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
-            LoginScreen(
-                onLoginSuccess = { username ->
-                    val intent = Intent(this, MainActivity::class.java).apply {
-                        putExtra("USERNAME", username)
-                    }
-                    startActivity(intent)
-                    finish()
+            LoginScreen(onLoginSuccess = { username ->
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    putExtra("USERNAME", username)
                 }
-            )
+                startActivity(intent)
+                finish()
+            })
         }
     }
 }
 
 @Composable
 fun LoginScreen(onLoginSuccess: (String) -> Unit) {
+
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var isRegistering by remember { mutableStateOf(false) }
+
     val context = LocalContext.current
 
     Column(
@@ -56,6 +55,7 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+
         Image(
             painter = painterResource(id = R.drawable.pets),
             contentDescription = "Logo",
@@ -68,7 +68,10 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = if (isRegistering) "Crear Cuenta" else "Iniciar Sesión",
+            text = if (isRegistering)
+                stringResource(R.string.create_account)
+            else
+                stringResource(R.string.login),
             style = MaterialTheme.typography.headlineMedium
         )
 
@@ -77,7 +80,7 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
         OutlinedTextField(
             value = username,
             onValueChange = { username = it },
-            label = { Text("Usuario / Email") },
+            label = { Text(stringResource(R.string.user_email)) },
             leadingIcon = { Icon(Icons.Default.Person, contentDescription = null) },
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(12.dp)
@@ -88,7 +91,7 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
         OutlinedTextField(
             value = password,
             onValueChange = { password = it },
-            label = { Text("Contraseña") },
+            label = { Text(stringResource(R.string.password)) },
             leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
             visualTransformation = PasswordVisualTransformation(),
             modifier = Modifier.fillMaxWidth(),
@@ -100,11 +103,22 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
         Button(
             onClick = {
                 if (username.isNotEmpty() && password.isNotEmpty()) {
-                    val message = if (isRegistering) "Usuario registrado con éxito" else "Bienvenido"
+
+                    val message = if (isRegistering)
+                        context.getString(R.string.register_success)
+                    else
+                        context.getString(R.string.welcome)
+
                     Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+
                     onLoginSuccess(username)
+
                 } else {
-                    Toast.makeText(context, "Por favor, completa todos los campos", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.fill_fields),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             },
             modifier = Modifier
@@ -112,22 +126,23 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
                 .height(50.dp),
             shape = RoundedCornerShape(12.dp)
         ) {
-            Text(if (isRegistering) "Registrarse" else "Ingresar")
+            Text(
+                if (isRegistering)
+                    stringResource(R.string.register)
+                else
+                    stringResource(R.string.login_btn)
+            )
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
         TextButton(onClick = { isRegistering = !isRegistering }) {
             Text(
-                if (isRegistering) "¿Ya tienes cuenta? Inicia sesión"
-                else "¿No tienes cuenta? Regístrate aquí"
+                if (isRegistering)
+                    stringResource(R.string.have_account)
+                else
+                    stringResource(R.string.no_account)
             )
         }
     }
-}
-
-@Preview(showBackground = true)
-@Composable
-fun LoginScreenPreview() {
-    LoginScreen(onLoginSuccess = {})
 }
