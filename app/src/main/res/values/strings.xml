@@ -1,3 +1,20 @@
 <resources>
-    <string name="app_name">PetCareCJC</string>
+    <string name="welcome_user">Hola, %1$s\nBienvenido a PetCare CJC</string>
+    <string name="care_text">Cuidémolos juntos</string>
+    <string name="desc_text">Descubre como cuidar a tus mascotas</string>
+    <string name="btn_register">Registrar Mascota</string>
+    <string name="btn_view">Ver mis Mascotas</string>
+    <string name="back">Volver</string>
+    <string name="add_pet">Agrega tus mascotas</string>
+    <string name="save_pet">Guardar Mascota</string>
+    <string name="search_pet">Buscar mascota</string>
+    <string name="my_pets">Tus mascotas</string>
+    <string name="detail">Detalle</string>
+    <string name="personal_info">Información Personal</string>
+    <string name="health_info">Información de Salud</string>
+    <string name="description">Descripción</string>
+    <string name="no_description">Sin descripción</string>
+    <string name="age">Edad</string>
+    <string name="not_specified">No especificada</string>
+    <string name="name">Nombre</string>
 </resources>

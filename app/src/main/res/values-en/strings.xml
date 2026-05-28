@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="welcome_user">Hello, %1$s\nWelcome to PetCare CJC</string>
+    <string name="care_text">Lets take care together</string>
+    <string name="desc_text">Discover how to care for your pets</string>
+    <string name="btn_register">Register Pet</string>
+    <string name="btn_view">View my Pets</string>
+    <string name="back">Back</string>
+    <string name="add_pet">Add your pets</string>
+    <string name="save_pet">Save Pet</string>
+    <string name="search_pet">Search pet</string>
+    <string name="my_pets">My pets</string>
+    <string name="detail">Detail</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="health_info">Health Info</string>
+    <string name="description">Description</string>
+    <string name="no_description">No description</string>
+    <string name="age">Age</string>
+    <string name="not_specified">Not specified</string>
+    <string name="name">Name</string>
+</resources>
