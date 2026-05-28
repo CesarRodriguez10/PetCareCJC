@@ -23,6 +23,12 @@ import com.example.petcarecjc.R
 import com.example.petcarecjc.model.Pet
 import com.example.petcarecjc.viewmodel.PetViewModel
 import kotlinx.coroutines.delay
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.platform.LocalContext
+import android.graphics.BitmapFactory
 
 class RegisterPetActivity : ComponentActivity() {
 
@@ -60,15 +66,14 @@ fun RegisterPetScreen(
     onSave: (Pet) -> Unit,
     onBack: () -> Unit
 ) {
-    // Info Personal
+
     var name by remember { mutableStateOf("") }
     var type by remember { mutableStateOf("") }
     var breed by remember { mutableStateOf("") }
     var gender by remember { mutableStateOf("") }
     var age by remember { mutableStateOf("") }
     var description by remember { mutableStateOf("") }
-    
-    // Info Salud
+
     var vaccines by remember { mutableStateOf("") }
     var diseases by remember { mutableStateOf("") }
     var medications by remember { mutableStateOf("") }
@@ -76,6 +81,15 @@ fun RegisterPetScreen(
     var lastVisit by remember { mutableStateOf("") }
 
     var showSavedCard by remember { mutableStateOf(false) }
+    var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
+
+    val context = LocalContext.current
+
+    val imagePicker = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.GetContent()
+    ) { uri ->
+        selectedImageUri = uri
+    }
     val scrollState = rememberScrollState()
 
     LaunchedEffect(showSavedCard) {
@@ -101,18 +115,50 @@ fun RegisterPetScreen(
         }
 
         Box(modifier = Modifier.fillMaxWidth()) {
-            Image(
-                painter = painterResource(id = R.drawable.jager),
-                contentDescription = "Mascota",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(250.dp)
-                    .clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp)),
-                contentScale = ContentScale.Crop
-            )
+
+                if (selectedImageUri != null) {
+
+                    val inputStream = context.contentResolver.openInputStream(selectedImageUri!!)
+                    val bitmap = BitmapFactory.decodeStream(inputStream)
+
+                    Image(
+                        bitmap = bitmap.asImageBitmap(),
+                        contentDescription = "Mascota",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                            .clip(
+                                RoundedCornerShape(
+                                    bottomStart = 20.dp,
+                                    bottomEnd = 20.dp
+                                )
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
+
+                } else {
+
+                    Image(
+                        painter = painterResource(id = R.drawable.jager),
+                        contentDescription = "Mascota",
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(250.dp)
+                            .clip(
+                                RoundedCornerShape(
+                                    bottomStart = 20.dp,
+                                    bottomEnd = 20.dp
+                                )
+                            ),
+                        contentScale = ContentScale.Crop
+                    )
+                }
+
             
             Button(
-                onClick = { /* Aquí iría la lógica para seleccionar foto */ },
+                onClick = {
+                    imagePicker.launch("image/*")
+                },
                 modifier = Modifier
                     .padding(16.dp)
                     .align(androidx.compose.ui.Alignment.BottomEnd),
@@ -155,7 +201,6 @@ fun RegisterPetScreen(
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            // SECCIÓN INFO PERSONAL
             Text("Información Personal", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
@@ -168,7 +213,6 @@ fun RegisterPetScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // SECCIÓN INFO SALUD
             Text("Información de Salud", fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp))
 
@@ -198,7 +242,7 @@ fun RegisterPetScreen(
                     onSave(pet)
                     showSavedCard = true
 
-                    // Reset campos
+
                     name = ""; type = ""; breed = ""; gender = ""; age = ""; description = ""
                     vaccines = ""; diseases = ""; medications = ""; allergies = ""; lastVisit = ""
                 },
