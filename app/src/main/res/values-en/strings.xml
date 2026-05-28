@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="login">Login</string>
+    <string name="login_btn">Sign In</string>
+    <string name="register">Register</string>
+    <string name="create_account">Create Account</string>
+    <string name="user_email">User / Email</string>
+    <string name="password">Password</string>
+    <string name="welcome">Welcome</string>
+    <string name="register_success">User registered successfully</string>
+    <string name="fill_fields">Please fill all fields</string>
+    <string name="have_account">Already have an account? Sign in</string>
+    <string name="no_account">Do not have an account? Register here</string>
     <string name="welcome_user">Hello, %1$s\nWelcome to PetCare CJC</string>
     <string name="app_name">PetCare CJC</string>
     <string name="care_text">Lets take care together</string>

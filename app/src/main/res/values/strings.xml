@@ -1,4 +1,15 @@
 <resources>
+    <string name="login">Iniciar Sesión</string>
+    <string name="login_btn">Ingresar</string>
+    <string name="register">Registrarse</string>
+    <string name="create_account">Crear Cuenta</string>
+    <string name="user_email">Usuario / Email</string>
+    <string name="password">Contraseña</string>
+    <string name="welcome">Bienvenido</string>
+    <string name="register_success">Usuario registrado con éxito</string>
+    <string name="fill_fields">Por favor, completa todos los campos</string>
+    <string name="have_account">¿Ya tienes cuenta? Inicia sesión</string>
+    <string name="no_account">¿No tienes cuenta? Regístrate aquí</string>
     <string name="welcome_user">Hola, %1$s\nBienvenido a PetCare CJC</string>
     <string name="app_name">PetCare CJC</string>
     <string name="care_text">Cuidémolos juntos</string>
