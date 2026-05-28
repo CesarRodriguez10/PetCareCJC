@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="welcome_user">Hello, %1$s\nWelcome to PetCare CJC</string>
+    <string name="app_name">PetCare CJC</string>
     <string name="care_text">Lets take care together</string>
     <string name="desc_text">Discover how to care for your pets</string>
     <string name="btn_register">Register Pet</string>
