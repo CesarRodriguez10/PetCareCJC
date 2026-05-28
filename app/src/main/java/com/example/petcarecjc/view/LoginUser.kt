@@ -60,12 +60,12 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
             painter = painterResource(id = R.drawable.pets),
             contentDescription = "Logo",
             modifier = Modifier
-                .size(120.dp)
-                .clip(RoundedCornerShape(60.dp)),
+                .size(220.dp)
+                .clip(RoundedCornerShape(20.dp)),
             contentScale = ContentScale.Crop
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(20.dp))
 
         Text(
             text = if (isRegistering)
@@ -75,7 +75,7 @@ fun LoginScreen(onLoginSuccess: (String) -> Unit) {
             style = MaterialTheme.typography.headlineMedium
         )
 
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(30.dp))
 
         OutlinedTextField(
             value = username,

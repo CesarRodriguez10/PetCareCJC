@@ -46,7 +46,7 @@ class RegisterPetActivity : ComponentActivity() {
         }
     }
 }
-
+//registro de mascotas
 @Composable
 fun RegisterPetScreen(
     onSave: (Pet) -> Unit,
