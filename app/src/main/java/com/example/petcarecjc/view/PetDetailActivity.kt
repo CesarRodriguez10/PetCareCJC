@@ -77,6 +77,15 @@ class PetDetailActivity : ComponentActivity() {
                 var newName by remember { mutableStateOf(pet.nombre) }
                 var newType by remember { mutableStateOf(pet.tipo) }
                 var newBreed by remember { mutableStateOf(pet.raza) }
+                var newGender by remember { mutableStateOf(pet.genero) }
+                var newAge by remember { mutableStateOf(pet.edad) }
+                var newDescription by remember { mutableStateOf(pet.descripcion) }
+
+                var newVaccines by remember { mutableStateOf(pet.vacunas) }
+                var newDiseases by remember { mutableStateOf(pet.enfermedades) }
+                var newMedications by remember { mutableStateOf(pet.medicamentos) }
+                var newAllergies by remember { mutableStateOf(pet.alergias) }
+                var newLastVisit by remember { mutableStateOf(pet.ultimaConsulta) }
 
                 AlertDialog(
 
@@ -90,40 +99,96 @@ class PetDetailActivity : ComponentActivity() {
 
                     text = {
 
-                        Column {
+                        Column(
+                            modifier = Modifier.verticalScroll(
+                                rememberScrollState()
+                            )
+                        ) {
 
                             OutlinedTextField(
                                 value = newName,
-                                onValueChange = {
-                                    newName = it
-                                },
-                                label = {
-                                    Text(stringResource(R.string.name))
-                                }
+                                onValueChange = { newName = it },
+                                label = { Text(stringResource(R.string.name)) }
                             )
 
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             OutlinedTextField(
                                 value = newType,
-                                onValueChange = {
-                                    newType = it
-                                },
-                                label = {
-                                    Text(stringResource(R.string.type))
-                                }
+                                onValueChange = { newType = it },
+                                label = { Text(stringResource(R.string.type)) }
                             )
 
-                            Spacer(modifier = Modifier.height(10.dp))
+                            Spacer(modifier = Modifier.height(8.dp))
 
                             OutlinedTextField(
                                 value = newBreed,
-                                onValueChange = {
-                                    newBreed = it
-                                },
-                                label = {
-                                    Text(stringResource(R.string.breed))
-                                }
+                                onValueChange = { newBreed = it },
+                                label = { Text(stringResource(R.string.breed)) }
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = newGender,
+                                onValueChange = { newGender = it },
+                                label = { Text(stringResource(R.string.gender)) }
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = newAge,
+                                onValueChange = { newAge = it },
+                                label = { Text(stringResource(R.string.age)) }
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = newDescription,
+                                onValueChange = { newDescription = it },
+                                label = { Text(stringResource(R.string.description)) }
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = newVaccines,
+                                onValueChange = { newVaccines = it },
+                                label = { Text(stringResource(R.string.vaccines)) }
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = newDiseases,
+                                onValueChange = { newDiseases = it },
+                                label = { Text(stringResource(R.string.diseases)) }
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = newMedications,
+                                onValueChange = { newMedications = it },
+                                label = { Text(stringResource(R.string.medications)) }
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = newAllergies,
+                                onValueChange = { newAllergies = it },
+                                label = { Text(stringResource(R.string.allergies)) }
+                            )
+
+                            Spacer(modifier = Modifier.height(8.dp))
+
+                            OutlinedTextField(
+                                value = newLastVisit,
+                                onValueChange = { newLastVisit = it },
+                                label = { Text(stringResource(R.string.last_visit)) }
                             )
                         }
                     },
@@ -136,7 +201,15 @@ class PetDetailActivity : ComponentActivity() {
                                 val updatedPet = pet.copy(
                                     nombre = newName,
                                     tipo = newType,
-                                    raza = newBreed
+                                    raza = newBreed,
+                                    genero = newGender,
+                                    edad = newAge,
+                                    descripcion = newDescription,
+                                    vacunas = newVaccines,
+                                    enfermedades = newDiseases,
+                                    medicamentos = newMedications,
+                                    alergias = newAllergies,
+                                    ultimaConsulta = newLastVisit
                                 )
 
                                 viewModel.updatePet(updatedPet)
@@ -240,7 +313,7 @@ fun PetListScreen(
                         ) {
 
                             Text(
-                                text = stringResource(R.string.name),
+                                text = pet.nombre,
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 24.sp
                             )
@@ -282,7 +355,7 @@ fun PetListScreen(
                                     onClick = {
 
                                         val updatedPet = pet.copy(
-                                            nombre = pet.nombre + " ✏️"
+                                            nombre = pet.nombre
                                         )
 
                                         onEditClick(updatedPet)
