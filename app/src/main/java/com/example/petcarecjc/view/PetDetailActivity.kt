@@ -10,7 +10,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.*
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.*
@@ -19,6 +18,7 @@ import androidx.compose.ui.unit.*
 import com.example.petcarecjc.R
 import com.example.petcarecjc.model.Pet
 import com.example.petcarecjc.viewmodel.PetViewModel
+import androidx.compose.ui.res.stringResource
 
 class PetDetailActivity : ComponentActivity() {
 
@@ -85,7 +85,7 @@ class PetDetailActivity : ComponentActivity() {
                     },
 
                     title = {
-                        Text("Editar Mascota")
+                        Text(stringResource(R.string.edit_pet))
                     },
 
                     text = {
@@ -98,7 +98,7 @@ class PetDetailActivity : ComponentActivity() {
                                     newName = it
                                 },
                                 label = {
-                                    Text("Nombre")
+                                    Text(stringResource(R.string.name))
                                 }
                             )
 
@@ -110,7 +110,7 @@ class PetDetailActivity : ComponentActivity() {
                                     newType = it
                                 },
                                 label = {
-                                    Text("Tipo")
+                                    Text(stringResource(R.string.type))
                                 }
                             )
 
@@ -122,7 +122,7 @@ class PetDetailActivity : ComponentActivity() {
                                     newBreed = it
                                 },
                                 label = {
-                                    Text("Raza")
+                                    Text(stringResource(R.string.breed))
                                 }
                             )
                         }
@@ -145,7 +145,7 @@ class PetDetailActivity : ComponentActivity() {
                             }
                         ) {
 
-                            Text("Guardar")
+                            Text(stringResource(R.string.save))
                         }
                     },
 
@@ -157,7 +157,7 @@ class PetDetailActivity : ComponentActivity() {
                             }
                         ) {
 
-                            Text("Cancelar")
+                            Text(stringResource(R.string.cancel))
                         }
                     }
                 )
@@ -189,7 +189,7 @@ fun PetListScreen(
         }
 
         Text(
-            text = "Mis Mascotas",
+            text = stringResource(R.string.my_pets),
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold
         )
@@ -203,7 +203,7 @@ fun PetListScreen(
                 contentAlignment = Alignment.Center
             ) {
 
-                Text("No hay mascotas registradas")
+                Text(stringResource(R.string.no_pets_registered))
             }
 
         } else {
@@ -240,22 +240,28 @@ fun PetListScreen(
                         ) {
 
                             Text(
-                                text = pet.nombre,
+                                text = stringResource(R.string.name),
                                 fontWeight = FontWeight.Bold,
                                 fontSize = 24.sp
                             )
 
                             Text(
-                                text = "${pet.tipo} • ${pet.raza}",
+                                text = stringResource(
+                                    R.string.pet_type_breed,
+                                    pet.tipo,
+                                    pet.raza
+                                ),
                                 color = Color.Gray
                             )
 
                             Spacer(modifier = Modifier.height(10.dp))
 
                             Text(
-                                text = pet.descripcion.ifEmpty {
-                                    "Sin descripción"
-                                }
+                                text = stringResource(
+                                    R.string.pet_type_breed,
+                                    pet.tipo,
+                                    pet.raza
+                                )
                             )
 
                             Spacer(modifier = Modifier.height(16.dp))
@@ -269,7 +275,7 @@ fun PetListScreen(
                                         onDetailClick(pet)
                                     }
                                 ) {
-                                    Text("Ver")
+                                    Text(stringResource(R.string.view))
                                 }
 
                                 Button(
@@ -286,7 +292,7 @@ fun PetListScreen(
                                         containerColor = Color(0xFF009688)
                                     )
                                 ) {
-                                    Text("Editar")
+                                    Text(stringResource(R.string.edit))
                                 }
 
                                 Button(
@@ -298,7 +304,7 @@ fun PetListScreen(
                                         containerColor = Color.Red
                                     )
                                 ) {
-                                    Text("Eliminar")
+                                    Text(stringResource(R.string.delete))
                                 }
                             }
                         }
@@ -365,9 +371,7 @@ fun SinglePetDetailScreen(
 
             Text(
                 "${stringResource(R.string.age)}: ${
-                    if (pet.edad.isEmpty())
-                        stringResource(R.string.not_specified)
-                    else pet.edad
+                    pet.edad.ifEmpty { stringResource(R.string.not_specified) }
                 }"
             )
 
@@ -393,16 +397,28 @@ fun SinglePetDetailScreen(
                 stringResource(R.string.health_info)
             )
 
-            DetailItem("Vacunas", pet.vacunas)
-
-            DetailItem("Enfermedades", pet.enfermedades)
-
-            DetailItem("Medicamentos", pet.medicamentos)
-
-            DetailItem("Alergias", pet.alergias)
+            DetailItem(
+                stringResource(R.string.vaccines),
+                pet.vacunas
+            )
 
             DetailItem(
-                "Última consulta",
+                stringResource(R.string.diseases),
+                pet.enfermedades
+            )
+
+            DetailItem(
+                stringResource(R.string.medications),
+                pet.medicamentos
+            )
+
+            DetailItem(
+                stringResource(R.string.allergies),
+                pet.alergias
+            )
+
+            DetailItem(
+                stringResource(R.string.last_visit),
                 pet.ultimaConsulta
             )
         }
@@ -436,7 +452,7 @@ fun DetailItem(
 
         Text(
             value.ifEmpty {
-                "No registrado"
+                stringResource(R.string.not_registered)
             }
         )
     }
