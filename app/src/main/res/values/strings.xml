@@ -29,4 +29,29 @@
     <string name="age">Edad</string>
     <string name="not_specified">No especificada</string>
     <string name="name">Nombre</string>
+    <string name="change_photo">Cambiar Foto</string>
+    <string name="pets_saved">Tus mascotas fueron guardadas</string>
+    <string name="type">Tipo</string>
+    <string name="breed">Raza</string>
+    <string name="gender">Género</string>
+    <string name="vaccines">Vacunas</string>
+    <string name="diseases">Enfermedades / Condición</string>
+    <string name="medications">Medicamentos actuales</string>
+    <string name="allergies">Alergias</string>
+    <string name="last_visit">Última consulta veterinario</string>
+    <string name="pet_image">Mascota</string>
+    <string name="edit_pet">Editar Mascota</string>
+    <string name="save">Guardar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="view">Ver</string>
+    <string name="edit">Editar</string>
+    <string name="delete">Eliminar</string>
+    <string name="not_registered">No registrado</string>
+    <string name="no_pets_registered">No hay mascotas registradas</string>
+    <string name="pet_item_format">%1$s - %2$s</string>
+    <string name="pet_type_breed">%1$s • %2$s</string>
+    <string name="pet_full_info">%1$s • %2$s • %3$s</string>
+
+
+
 </resources>
