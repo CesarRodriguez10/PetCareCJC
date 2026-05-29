@@ -127,7 +127,15 @@ fun RegisterPetScreen(
         ) {
 
             Image(
-                painter = painterResource(id = R.drawable.jager),
+
+                painter = if (selectedImageUri != null) {
+
+                    rememberAsyncImagePainter(selectedImageUri)
+
+                } else {
+
+                    painterResource(id = R.drawable.jager)
+                },
 
                 contentDescription = stringResource(R.string.pet_image),
 
@@ -314,11 +322,13 @@ fun RegisterPetScreen(
                         genero = gender,
                         edad = age,
                         descripcion = description,
+                        fotoUri = selectedImageUri?.toString() ?: "",
                         vacunas = vaccines,
                         enfermedades = diseases,
                         medicamentos = medications,
                         alergias = allergies,
                         ultimaConsulta = lastVisit
+
                     )
 
                     onSave(pet)

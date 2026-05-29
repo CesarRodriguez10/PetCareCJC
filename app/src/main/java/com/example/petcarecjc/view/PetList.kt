@@ -9,6 +9,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.petcarecjc.R
 import com.example.petcarecjc.model.Pet
+import androidx.compose.foundation.Image
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import coil.compose.rememberAsyncImagePainter
 
 @Composable
 fun PetListScreen(
@@ -51,23 +55,58 @@ fun PetListScreen(
 fun PetItem(pet: Pet, onDetailClick: (Pet) -> Unit) {
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
-        Text(
-            stringResource(
-                R.string.pet_item_format,
-                pet.nombre,
-                pet.tipo
-            )
-        )
 
-        Button(onClick = { onDetailClick(pet) }) {
+        Row {
+
+            Image(
+
+                painter = if (pet.fotoUri.isNotEmpty()) {
+
+                    rememberAsyncImagePainter(pet.fotoUri)
+
+                } else {
+
+                    painterResource(R.drawable.jager)
+                },
+
+                contentDescription = null,
+
+                modifier = Modifier
+                    .size(70.dp)
+            )
+
+            Spacer(modifier = Modifier.width(10.dp))
+
+            Column {
+
+                Text(
+                    text = pet.nombre
+                )
+
+                Text(
+                    text = pet.tipo
+                )
+            }
+        }
+
+        Button(
+            onClick = {
+                onDetailClick(pet)
+            }
+        ) {
+
             Text(
                 stringResource(R.string.detail)
             )
         }
     }
+
 }
 
 //comentario
