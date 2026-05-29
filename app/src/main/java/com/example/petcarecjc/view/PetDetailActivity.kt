@@ -19,6 +19,7 @@ import com.example.petcarecjc.R
 import com.example.petcarecjc.model.Pet
 import com.example.petcarecjc.viewmodel.PetViewModel
 import androidx.compose.ui.res.stringResource
+import coil.compose.rememberAsyncImagePainter
 
 class PetDetailActivity : ComponentActivity() {
 
@@ -298,7 +299,16 @@ fun PetListScreen(
                     Column {
 
                         Image(
-                            painter = painterResource(R.drawable.jager),
+
+                            painter = if (pet.fotoUri.isNotEmpty()) {
+
+                                rememberAsyncImagePainter(model = pet.fotoUri)
+
+                            } else {
+
+                                painterResource(id = R.drawable.jager)
+                            },
+
                             contentDescription = null,
 
                             modifier = Modifier
@@ -410,7 +420,16 @@ fun SinglePetDetailScreen(
         ) {
 
             Image(
-                painter = painterResource(R.drawable.jager),
+
+                painter = if (pet.fotoUri.isNotEmpty()) {
+
+                    rememberAsyncImagePainter(model = pet.fotoUri)
+
+                } else {
+
+                    painterResource(id = R.drawable.jager)
+                },
+
                 contentDescription = null,
 
                 modifier = Modifier.fillMaxSize(),

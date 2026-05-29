@@ -84,11 +84,21 @@ fun RegisterPetScreen(
     val scrollState = rememberScrollState()
     var selectedImageUri by remember { mutableStateOf<Uri?>(null) }
 
+    val context = LocalContext.current
+
     val launcher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
+        contract = ActivityResultContracts.OpenDocument()
     ) { uri: Uri? ->
 
-        selectedImageUri = uri
+        uri?.let {
+
+            context.contentResolver.takePersistableUriPermission(
+                it,
+                android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+            )
+
+            selectedImageUri = it
+        }
     }
     LaunchedEffect(showSavedCard) {
 
@@ -153,7 +163,7 @@ fun RegisterPetScreen(
             )
 
             Button(
-                onClick = { launcher.launch("image/*") },
+                onClick = { launcher.launch(arrayOf("image/*")) },
 
                 modifier = Modifier
                     .padding(16.dp)
@@ -321,6 +331,7 @@ fun RegisterPetScreen(
                         raza = breed,
                         genero = gender,
                         edad = age,
+
                         descripcion = description,
                         fotoUri = selectedImageUri?.toString() ?: "",
                         vacunas = vaccines,
