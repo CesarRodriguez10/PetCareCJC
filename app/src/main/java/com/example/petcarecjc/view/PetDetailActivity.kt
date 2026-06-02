@@ -550,4 +550,4 @@ fun DetailItem(
     }
 }
 
-//comentario
+//comentario 2222
