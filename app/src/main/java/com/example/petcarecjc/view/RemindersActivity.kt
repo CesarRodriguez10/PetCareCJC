@@ -2,11 +2,13 @@ package com.example.petcarecjc.view
 
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -35,6 +37,7 @@ class RemindersActivity : ComponentActivity() {
 
     private val viewModel: ReminderViewModel by viewModels()
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val petId   = intent.getStringExtra("petId")   ?: ""
@@ -45,6 +48,7 @@ class RemindersActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.S)
 @Composable
 fun RemindersScreen(petId: String, petName: String, viewModel: ReminderViewModel, onBack: () -> Unit) {
     val context = LocalContext.current
